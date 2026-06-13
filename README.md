@@ -1,0 +1,2 @@
+# OpenKatta
+Social media application
