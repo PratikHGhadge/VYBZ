@@ -1,0 +1,40 @@
+# ==========================================
+# OpenKatta Workspace Git Ignore Template
+# ==========================================
+
+# Xcode System & User Workspace Caches
+# ==========================================
+build/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Personal Layout and Local Xcode States
+# ==========================================
+.DS_Store
+*.swp
+*~
+*.xcuserstate
+project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+XCTestDevices/
+
+# Package & Dependency Managers
+# ==========================================
+# Swift Package Manager (SPM) build artifacts
+.build/
+
+# CocoaPods (Uncomment if you end up using Pods instead of SPM)
+# Pods/
+# *.xcworkspace
+
+# Carthage (Uncomment if using Carthage)
+# Carthage/Build/
+
+# Configuration and Environment Secrets
+# ==========================================
+*.config
+*.env
