@@ -1,2 +1,2 @@
-# OpenKatta
+# VYBZ
 Social media application
