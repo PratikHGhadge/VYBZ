@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct MainView: View {
-    @ObservedObject var viewModel: MainViewModel
+	@ObservedObject var viewModel: MainViewModel
+	@ObservedObject var authViewModel: AuthViewModel
 
-    var body: some View {
-        VStack {
+	var body: some View {
+		VStack {
 			Text("You are now signed in")
 
 			Button {
-//				viewModel.signOut()
+				authViewModel.signOut()
 			} label: {
 				Text("Sign Out")
 					.font(.custom(Fonts.bold, size: 18))
@@ -29,11 +30,11 @@ struct MainView: View {
 							.stroke(.black, lineWidth: 4)
 					)
 			}
-        }
-        .padding()
-    }
+		}
+		.padding()
+	}
 }
 
 #Preview {
-    MainView(viewModel: MainViewModel())
+	MainView(viewModel: MainViewModel(), authViewModel: AuthViewModel())
 }

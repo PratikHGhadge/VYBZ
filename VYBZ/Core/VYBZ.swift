@@ -20,7 +20,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct VYBZApp: App {
-	@StateObject private var viewModel = MainViewModel()
+	@StateObject private var mainViewModel = MainViewModel()
 	@StateObject private var authViewModel = AuthViewModel()
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 	@State private var isShowingSplash = true
@@ -41,7 +41,11 @@ struct VYBZApp: App {
 								}
 							}
 					} else {
-						AuthView(authViewModel: authViewModel)
+						if authViewModel.isAuthenticated {
+							MainView(viewModel: mainViewModel, authViewModel: authViewModel)
+						} else {
+							AuthView(authViewModel: authViewModel)
+						}
 					}
 				}
 				.preferredColorScheme(.dark)
