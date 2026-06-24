@@ -15,7 +15,7 @@ struct MainView: View {
 			Text("You are now signed in")
 
 			Button {
-				viewModel.signOut()
+//				viewModel.signOut()
 			} label: {
 				Text("Sign Out")
 					.font(.custom(Fonts.bold, size: 18))
