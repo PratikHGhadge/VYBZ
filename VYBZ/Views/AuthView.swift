@@ -82,15 +82,19 @@ struct AuthView: View {
 						.foregroundStyle(.white)
 						.frame(maxWidth: .infinity)
 						.frame(height: 62)
-						.background(
-							LinearGradient(
-								colors: [
-									Color(red: 1.0, green: 0.35, blue: 0.65),
-									Color(red: 0.25, green: 0.85, blue: 1.0)
-								],
-								startPoint: .leading,
-								endPoint: .trailing
-							)
+						.background(authViewModel.isFormValid ?
+									LinearGradient(
+										colors: [
+											Color(red: 1.0, green: 0.35, blue: 0.65),
+											Color(red: 0.25, green: 0.85, blue: 1.0)
+										],
+										startPoint: .leading,
+										endPoint: .trailing
+									) :
+										LinearGradient(colors: [Color(.gray)],
+													   startPoint: .leading,
+													   endPoint: .trailing
+													  )
 						)
 						.clipShape(
 							RoundedRectangle(
@@ -98,6 +102,8 @@ struct AuthView: View {
 							)
 						)
 				}
+				.disabled(!authViewModel.isFormValid)
+				.opacity(authViewModel.isFormValid ? 1 : 0.5)
 				.padding(.top, 24)
 
 				// MARK: Divider
