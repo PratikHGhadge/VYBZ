@@ -10,10 +10,6 @@ import Combine
 
 class MainViewModel: ObservableObject {
 
-	func signOut() {
-		//
-	}
-
 	let images = [
 		Images.chaha,
 		Images.coffee,
