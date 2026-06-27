@@ -7,34 +7,44 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct MainView: View {
+	
 	@ObservedObject var viewModel: MainViewModel
 	@ObservedObject var authViewModel: AuthViewModel
+	
+	@State private var selectedTab: MainTab = .home
 
 	var body: some View {
-		VStack {
-			Text("You are now signed in")
-
-			Button {
-				authViewModel.signOut()
-			} label: {
-				Text("Sign Out")
-					.font(.custom(Fonts.bold, size: 18))
-					.foregroundColor(.black)
-					.padding()
-					.frame(maxWidth: .infinity)
-					.background(Color(uiColor: .primaryYellow()))
-					.cornerRadius(10)
-					.overlay(
-						RoundedRectangle(cornerRadius: 10)
-							.stroke(.black, lineWidth: 4)
-					)
+		
+		ZStack(alignment: .bottom) {
+			TabView(selection: $selectedTab) {
+				HomeTabView()
+					.tag(MainTab.home)
+					.toolbarVisibility(.hidden, for: .tabBar)
+				CommunitiesTabView()
+					.tag(MainTab.communities)
+					.toolbarVisibility(.hidden, for: .tabBar)
+				Color.clear
+					.tag(MainTab.create)
+					.toolbarVisibility(.hidden, for: .tabBar)
+				ChatTabView()
+					.tag(MainTab.chat)
+					.toolbarVisibility(.hidden, for: .tabBar)
+				ProfileTabView()
+					.tag(MainTab.profile)
+					.toolbarVisibility(.hidden, for: .tabBar)
 			}
+
+			CustomTabBar(selectedTab: $selectedTab)
 		}
-		.padding()
 	}
 }
 
 #Preview {
-	MainView(viewModel: MainViewModel(), authViewModel: AuthViewModel())
+	MainView(
+		viewModel: MainViewModel(),
+		authViewModel: AuthViewModel()
+	)
 }
