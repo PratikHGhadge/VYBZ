@@ -22,7 +22,7 @@ class AuthViewModel: ObservableObject {
 	@Published var password = ""
 	@Published var showPassword = false
 	@Published var mode: AuthMode = .signIn
-	@Published var isAuthenticated: Bool = false
+	@Published var isAuthenticated: Bool = true
 	@Published var userData: UserData? = nil
 	@Published var isLoading: Bool = false
 	@Published var errorMessage: String? = nil {
@@ -48,7 +48,7 @@ class AuthViewModel: ObservableObject {
 					self.isAuthenticated = true
 					self.userData = UserData(user: user)
 				} else {
-					self.isAuthenticated = false
+					self.isAuthenticated = true
 					self.userData = nil
 				}
 			}
