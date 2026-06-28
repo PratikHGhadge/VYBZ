@@ -9,7 +9,10 @@ import SwiftUI
 
 struct HomeTabView: View {
     var body: some View {
-        Text("HomeTab View")
+		ZStack {
+			AppBackground()
+			Text("HomeTab View")
+		}
     }
 }
 

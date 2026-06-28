@@ -22,12 +22,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct VYBZApp: App {
 	@StateObject private var mainViewModel = MainViewModel()
 	@StateObject private var authViewModel = AuthViewModel()
+	@StateObject private var router = Router()
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 	@State private var isShowingSplash = true
 
     var body: some Scene {
         WindowGroup {
-			NavigationStack {
+			NavigationStack(path: $router.path) {
 				ZStack {
 					if isShowingSplash {
 						LaunchScreenView()
@@ -42,15 +43,25 @@ struct VYBZApp: App {
 							}
 					} else {
 						if authViewModel.isAuthenticated {
-							MainView(viewModel: mainViewModel, authViewModel: authViewModel)
+							MainView(
+								mainViewModel: mainViewModel,
+								authViewModel: authViewModel,
+							)
 						} else {
 							AuthView(authViewModel: authViewModel)
 						}
 					}
 				}
 				.preferredColorScheme(.dark)
+				.navigationDestination(for: AppRoute.self) { route in
+					switch route {
+						case .settings:
+							SettingsView(authViewModel: authViewModel)
+					}
+				}
 			}
-        }
-    }
+			.environmentObject(router)
+		}
+	}
 }
 

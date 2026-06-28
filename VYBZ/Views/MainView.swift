@@ -11,40 +11,42 @@ import SwiftUI
 
 struct MainView: View {
 	
-	@ObservedObject var viewModel: MainViewModel
+	@ObservedObject var mainViewModel: MainViewModel
 	@ObservedObject var authViewModel: AuthViewModel
 	
 	@State private var selectedTab: MainTab = .home
 
 	var body: some View {
-		
-		ZStack(alignment: .bottom) {
-			TabView(selection: $selectedTab) {
-				HomeTabView()
-					.tag(MainTab.home)
-					.toolbarVisibility(.hidden, for: .tabBar)
-				CommunitiesTabView()
-					.tag(MainTab.communities)
-					.toolbarVisibility(.hidden, for: .tabBar)
-				Color.clear
-					.tag(MainTab.create)
-					.toolbarVisibility(.hidden, for: .tabBar)
-				ChatTabView()
-					.tag(MainTab.chat)
-					.toolbarVisibility(.hidden, for: .tabBar)
-				ProfileTabView()
-					.tag(MainTab.profile)
-					.toolbarVisibility(.hidden, for: .tabBar)
-			}
+			ZStack(alignment: .bottom) {
+				AppBackground().ignoresSafeArea(.all)
+				Group {
+					switch selectedTab {
+						case .home:
+							HomeTabView()
+						case .communities:
+							CommunitiesTabView()
+						case .create:
+							AppBackground()
+						case .chat:
+							ChatTabView()
+						case .profile:
+							ProfileTabView(
+								authViewModel: authViewModel,
+								mainViewModel: mainViewModel
+							)
+					}
+				}
+				.frame(maxWidth: .infinity, maxHeight: .infinity)
+				.padding(.bottom, 70)
+				CustomTabBar(selectedTab: $selectedTab)
 
-			CustomTabBar(selectedTab: $selectedTab)
-		}
+			}
 	}
 }
 
 #Preview {
 	MainView(
-		viewModel: MainViewModel(),
+		mainViewModel: MainViewModel(),
 		authViewModel: AuthViewModel()
 	)
 }

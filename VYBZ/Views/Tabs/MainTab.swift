@@ -14,3 +14,8 @@ enum MainTab: Hashable {
 	case chat
 	case profile
 }
+
+
+enum Screens: String {
+	case Settings = "Settings"
+}
