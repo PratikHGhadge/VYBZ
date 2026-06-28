@@ -9,7 +9,10 @@ import SwiftUI
 
 struct ChatTabView: View {
     var body: some View {
-        Text("Chat View")
+		ZStack {
+			AppBackground()
+			Text("Chat View")
+		}
     }
 }
 

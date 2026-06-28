@@ -9,7 +9,10 @@ import SwiftUI
 
 struct CommunitiesTabView: View {
     var body: some View {
-        Text("Communities View")
+		ZStack {
+			AppBackground()
+			Text("Communities View")
+		}
     }
 }
 
