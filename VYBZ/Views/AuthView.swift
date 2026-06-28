@@ -73,9 +73,11 @@ struct AuthView: View {
 				// MARK: Button
 
 				Button {
-					authViewModel.mode == .signIn ? authViewModel
-						.signIn() : authViewModel
-						.signUp()
+					Task {
+						await authViewModel.mode == .signIn ? authViewModel
+							.signIn() : authViewModel
+							.signUp()
+					}
 				} label: {
 					Text(authViewModel.mode == .signIn ? "Sign In" : "Sign Up")
 						.font(.title2.bold())
