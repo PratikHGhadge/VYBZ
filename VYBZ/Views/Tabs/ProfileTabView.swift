@@ -22,7 +22,11 @@ struct ProfileTabView: View {
 						.frame(width: 100, height: 100)
 						.foregroundColor(.white.opacity(0.8))
 
-					Text(authViewModel.userData?.email ?? "User Tribe")
+					Text(authViewModel.authUserData?.email ?? "User Tribe")
+						.font(.title2.bold())
+						.foregroundColor(.white)
+
+					Text(authViewModel.authUserData?.uID ?? "User  uID")
 						.font(.title2.bold())
 						.foregroundColor(.white)
 

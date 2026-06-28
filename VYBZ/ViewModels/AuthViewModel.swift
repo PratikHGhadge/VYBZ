@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import Firebase
 import FirebaseAuth
+import FirebaseFirestore
 
 class AuthViewModel: ObservableObject {
 	private var authStateListenerHandle: AuthStateDidChangeListenerHandle? = nil
@@ -22,8 +23,8 @@ class AuthViewModel: ObservableObject {
 	@Published var password = ""
 	@Published var showPassword = false
 	@Published var mode: AuthMode = .signIn
-	@Published var isAuthenticated: Bool = true
-	@Published var userData: UserData? = nil
+	@Published var isAuthenticated: Bool = false
+	@Published var authUserData: UserData? = nil
 	@Published var isLoading: Bool = false
 	@Published var errorMessage: String? = nil {
 		didSet {
@@ -46,10 +47,10 @@ class AuthViewModel: ObservableObject {
 			DispatchQueue.main.async {
 				if let user = user {
 					self.isAuthenticated = true
-					self.userData = UserData(user: user)
+					self.authUserData = UserData(user: user)
 				} else {
-					self.isAuthenticated = true
-					self.userData = nil
+					self.isAuthenticated = false
+					self.authUserData = nil
 				}
 			}
 		}
@@ -59,33 +60,32 @@ class AuthViewModel: ObservableObject {
 		return !password.isEmpty && self.isValidEmail()
 	}
 
-	func signUp() {
+	@MainActor
+	func signUp() async {
 		guard isFormValid else {
 			self.errorMessage = "Please enter valid email and password"
 			return
 		}
-
-		DispatchQueue.main.async {
-			self.isLoading = true
-		}
-
+		self.isLoading = true
 		self.errorMessage = nil
-		Auth
-			.auth()
-			.createUser(withEmail: email, password: password) {
-				[weak self] result,
-				error in
-				guard let self else { return }
-				DispatchQueue.main.async {
-					self.isLoading = false
-					if let error = error {
-						self.errorMessage = error.localizedDescription
-					} else if let user = result?.user {
-						self.isAuthenticated = true
-						self.userData = UserData(user: user)
-					}
-				}
-			}
+
+		do {
+			let result = try await Auth.auth().createUser(withEmail: email, password: password)
+			let user = result.user
+
+			let userDate = UserData(user: user)
+			let db = Firestore.firestore()
+			try await db.collection("users").document(user.uid).setData([
+				"userID": userDate.uID,
+				"email": userDate.email ?? "",
+			])
+
+			self.isAuthenticated = true
+			self.authUserData = userDate
+		} catch {
+			self.errorMessage = error.localizedDescription
+		}
+		self.isLoading = false
 	}
 
 	func signIn() {
@@ -107,7 +107,7 @@ class AuthViewModel: ObservableObject {
 					self.errorMessage = error.localizedDescription
 				} else if let user = result?.user {
 					self.isAuthenticated = true
-					self.userData = UserData(user: user)
+					self.authUserData = UserData(user: user)
 				}
 			}
 		}
@@ -118,7 +118,7 @@ class AuthViewModel: ObservableObject {
 			try Auth.auth().signOut()
 			DispatchQueue.main.async {
 				self.isAuthenticated = false
-				self.userData = nil
+				self.authUserData = nil
 			}
 		} catch {
 			DispatchQueue.main.async {
