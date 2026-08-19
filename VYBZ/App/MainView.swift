@@ -11,10 +11,9 @@ import SwiftUI
 
 struct MainView: View {
 	
-	@ObservedObject var mainViewModel: MainViewModel
 	@ObservedObject var authViewModel: AuthViewModel
 	
-	@State private var selectedTab: MainTab = .home
+	@State private var selectedTab: MainTab = .profile
 
 	var body: some View {
 			ZStack(alignment: .bottom) {
@@ -30,14 +29,10 @@ struct MainView: View {
 						case .chat:
 							ChatTabView()
 						case .profile:
-							ProfileTabView(
-								authViewModel: authViewModel,
-								mainViewModel: mainViewModel
-							)
+							ProfileTabView()
 					}
 				}
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
-				.padding(.bottom, 70)
 				CustomTabBar(selectedTab: $selectedTab)
 
 			}
@@ -46,7 +41,7 @@ struct MainView: View {
 
 #Preview {
 	MainView(
-		mainViewModel: MainViewModel(),
+//		mainViewModel: MainViewModel(),
 		authViewModel: AuthViewModel()
 	)
 }

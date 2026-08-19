@@ -13,6 +13,10 @@ enum AppRoute: Hashable {
 	case settings
 }
 
+enum Screens: String {
+	case Settings = "Settings"
+}
+
 class Router: ObservableObject {
 	@Published var path = NavigationPath()
 
@@ -21,6 +25,7 @@ class Router: ObservableObject {
 	}
 
 	func pop() {
+		if path.isEmpty { return }
 		path.removeLast()
 	}
 
