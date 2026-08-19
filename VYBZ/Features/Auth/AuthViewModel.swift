@@ -20,6 +20,7 @@ class AuthViewModel: ObservableObject {
 	}
 
 	@Published var email = ""
+	@Published var userName = ""
 	@Published var password = ""
 	@Published var showPassword = false
 	@Published var mode: AuthMode = .signIn
@@ -35,25 +36,11 @@ class AuthViewModel: ObservableObject {
 			}
 		}
 	}
+	@Published var databaseUserProfile: DatabaseUserProfile? = nil
 
 
 	init() {
 		checkAuthentication()
-	}
-
-	private func checkAuthentication() {
-		authStateListenerHandle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
-			guard let self = self else { return }
-			DispatchQueue.main.async {
-				if let user = user {
-					self.isAuthenticated = true
-					self.authUserData = UserData(user: user)
-				} else {
-					self.isAuthenticated = false
-					self.authUserData = nil
-				}
-			}
-		}
 	}
 
 	var isFormValid: Bool {
@@ -73,15 +60,23 @@ class AuthViewModel: ObservableObject {
 			let result = try await Auth.auth().createUser(withEmail: email, password: password)
 			let user = result.user
 
-			let userDate = UserData(user: user)
+			let userData = UserData(user: user)
 			let db = Firestore.firestore()
-			try await db.collection("users").document(user.uid).setData([
-				"userID": userDate.uID,
-				"email": userDate.email ?? "",
-			])
+
+//			let databaseUserProfile = DatabaseUserProfile(
+//				joinedDate: Date(),
+//				email: userData.email,
+//				userID: userData.uID,
+//				userName: userName
+//			)
+//
+//			try db
+//				.collection("users")
+//				.document(user.uid)
+//				.setData(from: databaseUserProfile, merge: false)
 
 			self.isAuthenticated = true
-			self.authUserData = userDate
+			self.authUserData = userData
 		} catch {
 			self.errorMessage = error.localizedDescription
 		}
@@ -132,6 +127,41 @@ class AuthViewModel: ObservableObject {
 		let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
 		return emailPredicate.evaluate(with: email)
 	}
+
+	func fetchUserData() async {
+		guard let uid = Auth.auth().currentUser?.uid else { return }
+		do {
+//			let databaseUser = try await fetchDatabaseUserProfile(withUID: uid)
+//			print("fetched user \(databaseUser)")
+//			DispatchQueue.main.async {
+//				self.databaseUserProfile = databaseUser
+//			}
+		} catch {
+			self.errorMessage = error.localizedDescription
+		}
+	}
+
+	// MARK: Private helpers
+
+	private func checkAuthentication() {
+		authStateListenerHandle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
+			guard let self = self else { return }
+			DispatchQueue.main.async {
+				if let user = user {
+					self.isAuthenticated = true
+					self.authUserData = UserData(user: user)
+				} else {
+					self.isAuthenticated = false
+					self.authUserData = nil
+				}
+			}
+		}
+	}
+
+//	private func fetchDatabaseUserProfile(withUID uid: String) async throws -> DatabaseUserProfile {
+//		let db = Firestore.firestore()
+//		return try await db.collection("users").document(uid).getDocument(as: DatabaseUserProfile.self)
+//	}
 
 	deinit {
 		if let handle = authStateListenerHandle {

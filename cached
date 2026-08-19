@@ -1,0 +1,302 @@
+diff --git a/cached b/cached
+index 3d6049a..e69de29 100644
+--- a/cached
++++ b/cached
+@@ -1,297 +0,0 @@
+-diff --git a/VYBZ/App/MainTab.swift b/VYBZ/App/MainTab.swift
+-index 5da54a7..5e19e65 100644
+---- a/VYBZ/App/MainTab.swift
+-+++ b/VYBZ/App/MainTab.swift
+-@@ -14,8 +14,3 @@ enum MainTab: Hashable {
+- 	case chat
+- 	case profile
+- }
+--
+--
+--enum Screens: String {
+--	case Settings = "Settings"
+--}
+-diff --git a/VYBZ/App/MainView.swift b/VYBZ/App/MainView.swift
+-index f981626..fb023c1 100644
+---- a/VYBZ/App/MainView.swift
+-+++ b/VYBZ/App/MainView.swift
+-@@ -11,7 +11,7 @@ import SwiftUI
+- 
+- struct MainView: View {
+- 	
+--	@ObservedObject var mainViewModel: MainViewModel
+-+//	@ObservedObject var mainViewModel: MainViewModel
+- 	@ObservedObject var authViewModel: AuthViewModel
+- 	
+- 	@State private var selectedTab: MainTab = .profile
+-@@ -37,7 +37,6 @@ struct MainView: View {
+- 					}
+- 				}
+- 				.frame(maxWidth: .infinity, maxHeight: .infinity)
+--				.padding(.bottom, 70)
+- 				CustomTabBar(selectedTab: $selectedTab)
+- 
+- 			}
+-@@ -46,7 +45,7 @@ struct MainView: View {
+- 
+- #Preview {
+- 	MainView(
+--		mainViewModel: MainViewModel(),
+-+//		mainViewModel: MainViewModel(),
+- 		authViewModel: AuthViewModel()
+- 	)
+- }
+-diff --git a/VYBZ/App/Router.swift b/VYBZ/App/Router.swift
+-index 453bf14..a4eee83 100644
+---- a/VYBZ/App/Router.swift
+-+++ b/VYBZ/App/Router.swift
+-@@ -13,6 +13,10 @@ enum AppRoute: Hashable {
+- 	case settings
+- }
+- 
+-+enum Screens: String {
+-+	case Settings = "Settings"
+-+}
+-+
+- class Router: ObservableObject {
+- 	@Published var path = NavigationPath()
+- 
+-diff --git a/VYBZ/App/VYBZ.swift b/VYBZ/App/VYBZ.swift
+-index 7bd0b6b..8b96049 100644
+---- a/VYBZ/App/VYBZ.swift
+-+++ b/VYBZ/App/VYBZ.swift
+-@@ -20,7 +20,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
+- 
+- @main
+- struct VYBZApp: App {
+--	@StateObject private var mainViewModel = MainViewModel()
+-+//	@StateObject private var mainViewModel = MainViewModel()
+- 	@StateObject private var authViewModel = AuthViewModel()
+- 	@StateObject private var router = Router()
+- 	@UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+-@@ -44,7 +44,7 @@ struct VYBZApp: App {
+- 					} else {
+- 						if authViewModel.isAuthenticated {
+- 							MainView(
+--								mainViewModel: mainViewModel,
+-+//								mainViewModel: mainViewModel,
+- 								authViewModel: authViewModel,
+- 							)
+- 						} else {
+-diff --git a/VYBZ/Core/Services/AuthService.swift b/VYBZ/Core/Services/AuthService.swift
+-index e69de29..7a504ad 100644
+---- a/VYBZ/Core/Services/AuthService.swift
+-+++ b/VYBZ/Core/Services/AuthService.swift
+-@@ -0,0 +1,7 @@
+-+//
+-+//  AuthService.swift
+-+//  VYBZ
+-+//
+-+//  Created by Pratik Haridas Ghadge on 30/06/26.
+-+//
+-+
+-diff --git a/VYBZ/Extensions/UIColor+Ext.swift b/VYBZ/Extensions/UIColor+Ext.swift
+-deleted file mode 100644
+-index 47fc8dd..0000000
+---- a/VYBZ/Extensions/UIColor+Ext.swift
+-+++ /dev/null
+-@@ -1,78 +0,0 @@
+--//
+--//  UIColor+Ext.swift
+--//  VYBZ
+--//
+--//  Created by Pratik Haridas Ghadge on 14/06/26.
+--//
+--
+--import UIKit
+--import SwiftUI
+--
+--// MARK: - App Custom Color Palette
+--extension UIColor {
+--	class func creamText() -> UIColor {
+--		return UIColor(hex: 0xFFFAF4)
+--	}
+--
+--	class func darkPinkTone() -> UIColor {
+--		return UIColor(hex: 0xF07167)
+--	}
+--
+--	class func gameGreen() -> UIColor {
+--		return UIColor(hex: 0x6BD46A)
+--	}
+--
+--	class func neonYellow() -> UIColor {
+--		return UIColor(hex: 0xD3F33A)
+--	}
+--
+--	class func primaryYellow() -> UIColor {
+--		return UIColor(hex: 0xFFCB03)
+--	}
+--
+--	class func mildYellow() -> UIColor {
+--		return UIColor(hex: 0xFFEF7D)
+--	}
+--
+--	class func pinkishOrange() -> UIColor {
+--		return UIColor(hex: 0xFC7A6A)
+--	}
+--
+--	class func dirtyGreen() -> UIColor {
+--		return UIColor(hex: 0xD4BE13)
+--	}
+--}
+--
+--// MARK: - Hex Initialization Extension
+--
+--extension UIColor {
+--	convenience init(red: Int, green: Int, blue: Int, alpha: CGFloat = 1.0) {
+--		assert(red >= 0 && red <= 255, "Invalid red component")
+--		assert(green >= 0 && green <= 255, "Invalid green component")
+--		assert(blue >= 0 && blue <= 255, "Invalid blue component")
+--
+--		self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: alpha)
+--	}
+--
+--	convenience init(hex: Int, alpha: CGFloat = 1.0) {
+--		self.init(
+--			red: (hex >> 16) & 0xFF,
+--			green: (hex >> 8) & 0xFF,
+--			blue: hex & 0xFF,
+--			alpha: alpha
+--		)
+--	}
+--}
+--
+--// MARK: - SwiftUI Extension Wrapper
+--extension Color {
+--	static let creamText = Color(uiColor: .creamText())
+--	static let darkPinkTone = Color(uiColor: .darkPinkTone())
+--	static let gameGreen = Color(uiColor: .gameGreen())
+--	static let neonYellow = Color(uiColor: .neonYellow())
+--	static let primaryYellow = Color(uiColor: .primaryYellow())
+--	static let mildYellow = Color(uiColor: .mildYellow())
+--	static let pinkishOrange = Color(uiColor: .pinkishOrange())
+--	static let dirtyGreen = Color(uiColor: .dirtyGreen())
+--}
+--
+-diff --git a/VYBZ/Models/DatabaseUserProfile.swift b/VYBZ/Models/DatabaseUserProfile.swift
+-deleted file mode 100644
+-index 3bb7cac..0000000
+---- a/VYBZ/Models/DatabaseUserProfile.swift
+-+++ /dev/null
+-@@ -1,87 +0,0 @@
+--//
+--//  DatabaseUser.swift
+--//  VYBZ
+--//
+--//  Created by Pratik Haridas Ghadge on 28/06/26.
+--//
+--
+--import Foundation
+--
+--struct DatabaseUserProfile: Codable {
+--	let dateCreated: Date
+--	let email: String?
+--	let userID: String?
+--	let userName: String?
+--}
+--
+--
+--
+--extension DateFormatter {
+--	static let userFriendly: DateFormatter = {
+--		let formatter = DateFormatter()
+--		formatter.dateStyle = .medium
+--		formatter.timeStyle = .short
+--		return formatter
+--	}()
+--}
+--
+--
+--import SwiftUI
+--
+--// MARK: - Models
+--
+--struct UserProfile {
+--	let id: UUID
+--	let name: String
+--	let coverImageName: String
+--	let tags: [String]
+--	let joinedDate: String            // e.g. "Nov 2024"
+--	let followers: ProfileStat
+--	let following: ProfileStat
+--	var posts: [ProfilePost]
+--
+--	static let mock = UserProfile(
+--		id: UUID(),
+--		name: "Dana Williams",
+--		coverImageName: "profile_cover",   // replace with your asset
+--		tags: ["Professional artist", "Photographer", "Creator"],
+--		joinedDate: "Nov 2024",
+--		followers: ProfileStat(count: "2.4K", avatarImageNames: ["avatar1", "avatar2", "avatar3"]),
+--		following: ProfileStat(count: "150",  avatarImageNames: ["avatar4", "avatar5"]),
+--		posts: ProfilePost.mockPosts
+--	)
+--}
+--
+--struct ProfileStat {
+--	let count: String
+--	let avatarImageNames: [String]   // small stacked circles
+--}
+--
+--struct ProfilePost: Identifiable {
+--	let id: UUID
+--	let imageName: String            // asset name or URL
+--	let isVideo: Bool
+--
+--	static let mockPosts: [ProfilePost] = [
+--		ProfilePost(id: UUID(), imageName: "post1", isVideo: false),
+--		ProfilePost(id: UUID(), imageName: "post2", isVideo: false),
+--		ProfilePost(id: UUID(), imageName: "post3", isVideo: true),
+--		ProfilePost(id: UUID(), imageName: "post4", isVideo: false),
+--		ProfilePost(id: UUID(), imageName: "post5", isVideo: false),
+--		ProfilePost(id: UUID(), imageName: "post6", isVideo: true),
+--	]
+--}
+--
+--enum ProfileTab: String, CaseIterable {
+--	case library = "Library"
+--	case videos  = "Videos"
+--	case saved   = "Saved"
+--
+--	var icon: String {
+--		switch self {
+--			case .library: return "square.grid.2x2.fill"
+--			case .videos:  return "video.fill"
+--			case .saved:   return "bookmark.fill"
+--		}
+--	}
+--}
+-diff --git a/VYBZ/Models/ProfilePost.swift b/VYBZ/Models/ProfilePost.swift
+-deleted file mode 100644
+-index e69de29..0000000
+-diff --git a/VYBZ/Models/UserData.swift b/VYBZ/Models/UserData.swift
+-deleted file mode 100644
+-index 2207299..0000000
+---- a/VYBZ/Models/UserData.swift
+-+++ /dev/null
+-@@ -1,19 +0,0 @@
+--//
+--//  UserData.swift
+--//  VYBZ
+--//
+--//  Created by Pratik Haridas Ghadge on 24/06/26.
+--//
+--
+--import Foundation
+--import FirebaseAuth
+--
+--struct UserData {
+--	let uID: String
+--	let email: String?
+--
+--	init(user: User) {
+--		self.uID = user.uid
+--		self.email = user.email
+--	}
+--}

@@ -11,23 +11,17 @@ struct AuthView: View {
 	@ObservedObject var authViewModel: AuthViewModel
 
 	var body: some View {
-
 		ZStack {
-
 			// MARK: Background
-
 			AppBackground()
 
 			VStack {
-
 				Spacer()
 
 				// MARK: Logo
-
 				Image("VYBZlogo")
 					.resizable()
 					.scaledToFit()
-
 
 				Text("VYBZ")
 					.font(
@@ -49,7 +43,6 @@ struct AuthView: View {
 					)
 
 				// MARK: Header
-
 				Text(authViewModel.mode == .signIn ? "Welcome Back" : "Create Account")
 					.font(.system(size: 38, weight: .bold))
 					.foregroundStyle(.white)
@@ -63,15 +56,13 @@ struct AuthView: View {
 				.foregroundStyle(.white.opacity(0.7))
 
 				VStack(spacing: 18) {
-
 					emailField
-
+					authViewModel.mode == .signIn ? nil : userNameField
 					passwordField
 				}
 				.padding(.top, 15)
 
 				// MARK: Button
-
 				Button {
 					Task {
 						await authViewModel.mode == .signIn ? authViewModel
@@ -109,7 +100,6 @@ struct AuthView: View {
 				.padding(.top, 24)
 
 				// MARK: Divider
-
 				HStack {
 					Rectangle()
 						.fill(.white.opacity(0.12))
@@ -126,7 +116,6 @@ struct AuthView: View {
 				.padding(.vertical, 28)
 
 				// MARK: Switch Mode
-
 				HStack(spacing: 5) {
 					Text(
 						authViewModel.mode == .signIn
@@ -149,9 +138,7 @@ struct AuthView: View {
 						.fontWeight(.semibold)
 					}
 				}
-
 				Spacer()
-
 				bottomWave
 			}
 			.padding(.horizontal, 28)
@@ -165,10 +152,8 @@ extension AuthView {
 
 	var emailField: some View {
 		HStack(spacing: 14) {
-
 			Image(systemName: "envelope")
 				.foregroundStyle(.white.opacity(0.6))
-
 			TextField(
 				"Email",
 				text: $authViewModel.email
@@ -197,8 +182,39 @@ extension AuthView {
 		}
 	}
 
-	var passwordField: some View {
+	var userNameField: some View {
+		HStack(spacing: 14) {
+			Image(systemName: "person")
+				.foregroundStyle(.white.opacity(0.6))
+			TextField(
+				"userName",
+				text: $authViewModel.userName
+			)
+			.foregroundStyle(.white)
+		}
+		.padding()
+		.frame(height: 65)
+		.background(
+			RoundedRectangle(cornerRadius: 18)
+				.fill(Color.white.opacity(0.03))
+		)
+		.overlay {
+			RoundedRectangle(cornerRadius: 18)
+				.stroke(
+					LinearGradient(
+						colors: [
+							.pink.opacity(0.5),
+							.cyan.opacity(0.5)
+						],
+						startPoint: .leading,
+						endPoint: .trailing
+					),
+					lineWidth: 1
+				)
+		}
+	}
 
+	var passwordField: some View {
 		HStack(spacing: 14) {
 			Image(systemName: "lock")
 				.foregroundStyle(.white.opacity(0.6))
@@ -217,7 +233,6 @@ extension AuthView {
 				}
 			}
 			.foregroundStyle(.white)
-
 			Button {
 				authViewModel.showPassword.toggle()
 			} label: {
@@ -237,7 +252,6 @@ extension AuthView {
 				.fill(Color.white.opacity(0.03))
 		)
 		.overlay {
-
 			RoundedRectangle(cornerRadius: 18)
 				.stroke(
 					LinearGradient(
@@ -269,7 +283,6 @@ extension AuthView {
 				)
 				.frame(height: 8)
 				.blur(radius: 20)
-
 			Capsule()
 				.fill(
 					LinearGradient(
