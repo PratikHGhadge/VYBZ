@@ -20,7 +20,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct VYBZApp: App {
-//	@StateObject private var mainViewModel = MainViewModel()
 	@StateObject private var authViewModel = AuthViewModel()
 	@StateObject private var router = Router()
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var delegate

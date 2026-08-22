@@ -13,7 +13,7 @@ struct MainView: View {
 	
 	@ObservedObject var authViewModel: AuthViewModel
 	
-	@State private var selectedTab: MainTab = .profile
+	@State private var selectedTab: MainTab = .chat
 
 	var body: some View {
 			ZStack(alignment: .bottom) {
@@ -41,7 +41,6 @@ struct MainView: View {
 
 #Preview {
 	MainView(
-//		mainViewModel: MainViewModel(),
 		authViewModel: AuthViewModel()
 	)
 }
