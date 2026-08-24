@@ -13,6 +13,8 @@ struct ChatTabView: View {
 
 	@State private var searchText = ""
 	@State private var showNewMessage = false
+	@EnvironmentObject var router: Router
+
 
 	var filteredConversations: [Conversation] {
 		let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -222,7 +224,7 @@ private extension ChatTabView {
 				ForEach(filteredConversations) { conversation in
 					ConversationRow(conversation: conversation)
 						.onTapGesture {
-							// Open chat
+							router.push(.chatDetail)
 						}
 				}
 				Color.clear

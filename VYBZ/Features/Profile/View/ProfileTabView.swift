@@ -23,6 +23,8 @@ struct ProfileTabView: View {
 		GeometryReader { geo in
 			ZStack(alignment: .top) {
 
+				AppBackground()
+
 				// Background tint that extends behind the safe-area
 				Color(.clear).ignoresSafeArea()
 

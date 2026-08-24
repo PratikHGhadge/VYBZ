@@ -11,10 +11,12 @@ import Combine
 
 enum AppRoute: Hashable {
 	case settings
+	case chatDetail
 }
 
 enum Screens: String {
 	case Settings = "Settings"
+	case ChatDetail = "ChatDetail"
 }
 
 class Router: ObservableObject {
