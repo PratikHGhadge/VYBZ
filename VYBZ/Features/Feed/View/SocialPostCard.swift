@@ -285,3 +285,7 @@ private extension SocialPostCard {
 		)
 	}
 }
+
+#Preview {
+	SocialPostCard(post: SocialPost.mockPosts.first!)
+}

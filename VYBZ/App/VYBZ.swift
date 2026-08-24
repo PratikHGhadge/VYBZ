@@ -55,6 +55,8 @@ struct VYBZApp: App {
 					switch route {
 						case .settings:
 							SettingsView(authViewModel: authViewModel)
+						case .chatDetail:
+							ChatDetailView()
 					}
 				}
 			}
