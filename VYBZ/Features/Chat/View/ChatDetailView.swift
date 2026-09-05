@@ -775,11 +775,6 @@ struct ChatUser {
 }
 
 
-enum MessageType {
-	case sent
-	case received
-}
-
 
 struct ChatMessage: Identifiable {
 
