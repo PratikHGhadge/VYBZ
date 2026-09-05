@@ -15,21 +15,6 @@ struct ChatTabView: View {
 	@State private var showNewMessage = false
 	@EnvironmentObject var router: Router
 
-
-	var filteredConversations: [Conversation] {
-		let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-
-		guard !query.isEmpty else {
-			return Conversation.mockConversations
-		}
-
-		return Conversation.mockConversations.filter {
-			$0.name.localizedCaseInsensitiveContains(query) ||
-			$0.username.localizedCaseInsensitiveContains(query) ||
-			$0.preview.localizedCaseInsensitiveContains(query)
-		}
-	}
-
 	var body: some View {
 		NavigationStack {
 			ZStack {
@@ -221,12 +206,12 @@ private extension ChatTabView {
 		) {
 			LazyVStack(spacing: 10) {
 
-				ForEach(filteredConversations) { conversation in
-					ConversationRow(conversation: conversation)
-						.onTapGesture {
-							router.push(.chatDetail)
-						}
-				}
+//				ForEach(filteredConversations) { conversation in
+//					ConversationRow(conversation: conversation)
+//						.onTapGesture {
+//							router.push(.chatDetail)
+//						}
+//				}
 				Color.clear
 					.frame(height: 22)
 			}
