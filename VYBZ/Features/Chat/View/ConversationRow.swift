@@ -24,7 +24,7 @@ struct ConversationRow: View {
 			) {
 				HStack(spacing: 5) {
 
-					Text(conversation.name)
+					Text("Prati")
 						.font(
 							.system(
 								size: 18,
@@ -34,14 +34,14 @@ struct ConversationRow: View {
 						.foregroundStyle(.white)
 						.lineLimit(1)
 
-					if conversation.isVerified {
+					if true {
 						Image(systemName: "checkmark.seal.fill")
 							.font(.system(size: 13))
 							.foregroundStyle(.white)
 					}
 				}
 
-				Text(conversation.preview)
+				Text("conversation preview")
 					.font(
 						.system(
 							size: 15,
@@ -60,7 +60,7 @@ struct ConversationRow: View {
 				alignment: .trailing,
 				spacing: 9
 			) {
-				Text(conversation.time)
+				Text("7:04 PM")
 					.font(
 						.system(
 							size: 14,
@@ -73,7 +73,7 @@ struct ConversationRow: View {
 
 				if conversation.unreadCount > 0 {
 					unreadBadge
-				} else if conversation.hasBlueDot {
+				} else if true {
 					Circle()
 						.fill(Color.blue)
 						.frame(
@@ -107,7 +107,7 @@ struct ConversationRow: View {
 	private var avatar: some View {
 		ZStack(alignment: .bottomTrailing) {
 
-			Image(conversation.avatar)
+			Image("profile_cover")
 				.resizable()
 				.scaledToFill()
 				.frame(
@@ -123,7 +123,7 @@ struct ConversationRow: View {
 						)
 				}
 
-			if conversation.isOnline {
+			if true {
 				Circle()
 					.fill(Color.green)
 					.frame(

@@ -35,44 +35,44 @@ struct ChatDetailView: View {
 				ChatMessage(
 					text: "Hey! 👋",
 					time: "9:20 AM",
-					type: .received
+					type: .text
 				),
 
 				ChatMessage(
 					text: "Hey Pratik! ❤️",
 					time: "9:21 AM",
-					type: .sent
+					type: .text
 				),
 
 				ChatMessage(
 					text: "How are you?",
 					time: "9:22 AM",
-					type: .received
+					type: .text
 				),
 
 				ChatMessage(
 					text: "I'm good! Just working on something new.",
 					time: "9:22 AM",
-					type: .sent
+					type: .text
 				),
 
 				ChatMessage(
 					text: "That's awesome! Can't wait to see it 🔥",
 					time: "9:23 AM",
-					type: .received
+					type: .text
 				),
 
 				ChatMessage(
 					text: nil,
 					imageName: "chat_beach",
 					time: "9:24 AM",
-					type: .sent
+					type: .text
 				),
 
 				ChatMessage(
 					text: "Wow! That looks amazing 😍",
 					time: "9:24 AM",
-					type: .received
+					type: .text
 				)
 			]
 		)
@@ -423,24 +423,24 @@ struct MessageBubble: View {
 	var body: some View {
 		HStack {
 
-			if message.type == .sent {
+			if message.type == .text {
 				Spacer(minLength: 55)
 			}
 
-			if message.type == .received {
+			if message.type == .text {
 				receivedContent
 			} else {
 				sentContent
 			}
 
-			if message.type == .received {
+			if message.type == .text {
 				Spacer(minLength: 55)
 			}
 		}
 		.frame(
 			maxWidth: .infinity,
 			alignment:
-				message.type == .sent
+				message.type == .text
 			? .trailing
 			: .leading
 		)
@@ -604,7 +604,7 @@ private extension MessageBubble {
 						)
 					)
 
-				if message.type == .sent {
+				if message.type == .text {
 					Image(
 						systemName:
 							"checkmark.checkmark"
