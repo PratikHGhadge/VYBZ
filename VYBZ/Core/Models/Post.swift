@@ -10,11 +10,17 @@ import Foundation
 struct Post: Identifiable, Codable {
 	let id: String
 	let authorID: String
-	let caption: String
-	let mediaURL: String
+	let caption: String?
+	let mediaURL: String?
+	let mediaType: PostMediaType
 	let location: String?
 	let createdAt: Date
 	let updatedAt: Date
-	let likeCount: Int
-	let commentCount: Int
+	let likesCount: Int
+	let commentsCount: Int
+}
+
+enum PostMediaType: String, Codable {
+	case photo
+	case video
 }
