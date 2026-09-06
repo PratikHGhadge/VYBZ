@@ -15,7 +15,7 @@ struct Message: Identifiable, Codable {
 	let mediaURL: String?
 	let type: MessageType
 	let createdAt: Date
-	let isRead: Bool
+	var isRead: Bool
 }
 
 enum MessageType: String, Codable {

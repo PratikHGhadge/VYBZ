@@ -10,11 +10,11 @@ import Foundation
 protocol MessageService {
 
 	// Fetch messages for a conversation
-	func fetchMessages(for conversation: Conversation) async throws -> [Message]
+	func fetchMessages(conversationID: String) async throws -> [Message]
 
 	// Send a new message
 	func sendMessage(_ message: Message) async throws
 
 	// Mark a message as read
-	func markMessageAsRead(_ messageID: String) async throws
+	func markMessageAsRead(messageID: String) async throws
 }
