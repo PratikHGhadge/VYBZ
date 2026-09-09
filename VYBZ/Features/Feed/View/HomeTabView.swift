@@ -11,6 +11,12 @@ import SwiftUI
 
 struct HomeTabView: View {
 
+	@State private var feedViewModel: FeedViewModel
+
+	init(feedViewModel: FeedViewModel) {
+		_feedViewModel = State(initialValue: feedViewModel)
+	}
+
 	var body: some View {
 		ZStack {
 			AppBackground()
@@ -93,8 +99,10 @@ private extension HomeTabView {
 			LazyVStack(
 				spacing: 20
 			) {
-				ForEach(SocialPost.mockPosts) { post in
-					SocialPostCard(post: post)
+				ForEach(feedViewModel.posts) { post in
+					if let user = feedViewModel.user(for: post) {
+						SocialPostCard(post: post, user: user)
+					}
 				}
 				Color.clear
 					.frame(height: 12)
@@ -102,12 +110,20 @@ private extension HomeTabView {
 			.padding(.horizontal, 16)
 		}
 		.scrollClipDisabled()
+		.task {
+			await feedViewModel.loadFeed()
+		}
 	}
 }
 
 // MARK: - Preview
 
 #Preview {
-	HomeTabView()
+	HomeTabView(
+		feedViewModel: FeedViewModel(
+			postService: MockPostService(),
+			userService: MockUserService()
+		)
+	)
 }
 

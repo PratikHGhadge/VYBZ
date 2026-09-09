@@ -9,16 +9,17 @@ import SwiftUI
 
 struct SocialPostCard: View {
 
-	let post: SocialPost
+	let post: Post
+	let user: User
 
-	@State private var liked: Bool
+//	@State private var liked: Bool
 	@State private var likes: Int
 	@State private var showComments = false
 
-	init(post: SocialPost) {
+	init(post: Post, user: User) {
 		self.post = post
-		_liked = State(initialValue: post.isLiked)
-		_likes = State(initialValue: post.likes)
+		self.user = user
+		_likes = State(initialValue: post.likesCount)
 	}
 
 	var body: some View {
@@ -65,7 +66,7 @@ private extension SocialPostCard {
 
 	var postImage: some View {
 		ZStack {
-			Image(post.imageName)
+			Image(post.mediaURL ?? "")
 				.resizable()
 				.scaledToFill()
 				.frame(
@@ -101,12 +102,12 @@ private extension SocialPostCard {
 				HStack(spacing: 5) {
 					Image(
 						systemName:
-							liked
+							true
 						? "heart.fill"
 						: "heart"
 					)
 					.foregroundStyle(
-						liked
+						true
 						? Color.pink
 						: Color.white
 					)
@@ -130,7 +131,7 @@ private extension SocialPostCard {
 					)
 
 					Text(
-						post.comments.formatted()
+						post.commentsCount.formatted()
 					)
 					.foregroundStyle(
 						Color.white.opacity(0.88)
@@ -162,7 +163,7 @@ private extension SocialPostCard {
 		.sheet(
 			isPresented: $showComments
 		) {
-			CommentsView(post: post)
+			CommentsView(post: post, user: user)
 				.presentationDetents(
 					[.medium, .large]
 				)
@@ -170,9 +171,9 @@ private extension SocialPostCard {
 	}
 
 	func toggleLike() {
-		liked.toggle()
+//		true.toggle()
 
-		if liked {
+		if true {
 			likes += 1
 		} else {
 			likes = max(0, likes - 1)
@@ -187,7 +188,7 @@ private extension SocialPostCard {
 	var postHeader: some View {
 		HStack(spacing: 11) {
 
-			Image(post.userAvatar)
+			Image(user.avatarURL?.absoluteString ?? "")
 				.resizable()
 				.scaledToFill()
 				.frame(
@@ -209,7 +210,7 @@ private extension SocialPostCard {
 			) {
 
 				HStack(spacing: 5) {
-					Text(post.userName)
+					Text(user.userName)
 						.font(
 							.system(
 								size: 15,
@@ -217,7 +218,7 @@ private extension SocialPostCard {
 							)
 						)
 
-					if post.isVerified {
+					if user.isVerified {
 						Image(
 							systemName:
 								"checkmark.seal.fill"
@@ -230,11 +231,11 @@ private extension SocialPostCard {
 				}
 
 				HStack(spacing: 6) {
-					Text(post.time)
+					Text(post.createdAt.timeAgo)
 
 					Text("•")
 
-					Text(post.location)
+					Text(post.location ?? "")
 				}
 				.font(
 					.system(
@@ -287,5 +288,5 @@ private extension SocialPostCard {
 }
 
 #Preview {
-	SocialPostCard(post: SocialPost.mockPosts.first!)
+	SocialPostCard(post: MockData.posts.first!, user: MockData.users.first!)
 }
