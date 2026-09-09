@@ -21,7 +21,6 @@
 		D275B8F02FE69DAF002FE122 /* Exceptions for "VYBZ" folder in "VYBZ" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Core/Services/Protocols/Untitled.swift,
 				Resources/Info.plist,
 			);
 			target = D23C158E2FDD4AB6008E6837 /* VYBZ */;

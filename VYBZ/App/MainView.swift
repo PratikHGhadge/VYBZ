@@ -10,32 +10,44 @@ import SwiftUI
 import SwiftUI
 
 struct MainView: View {
-	
+
 	@ObservedObject var authViewModel: AuthViewModel
-	
+
 	@State private var selectedTab: MainTab = .chat
+	@State private var feedViewModel: FeedViewModel
+
+	init(authViewModel: AuthViewModel) {
+		self.authViewModel = authViewModel
+
+		_feedViewModel = State(
+			initialValue: FeedViewModel(
+				postService: MockPostService(),
+				userService: MockUserService()
+			)
+		)
+	}
 
 	var body: some View {
-			ZStack(alignment: .bottom) {
-				AppBackground().ignoresSafeArea(.all)
-				Group {
-					switch selectedTab {
-						case .home:
-							HomeTabView()
-						case .communities:
-							CommunitiesTabView()
-						case .create:
-							AppBackground()
-						case .chat:
-							ChatTabView()
-						case .profile:
-							ProfileTabView()
-					}
+		ZStack(alignment: .bottom) {
+			AppBackground().ignoresSafeArea(.all)
+			Group {
+				switch selectedTab {
+					case .home:
+						HomeTabView(feedViewModel: feedViewModel)
+					case .communities:
+						CommunitiesTabView()
+					case .create:
+						AppBackground()
+					case .chat:
+						ChatTabView()
+					case .profile:
+						ProfileTabView()
 				}
-				.frame(maxWidth: .infinity, maxHeight: .infinity)
-				CustomTabBar(selectedTab: $selectedTab)
-
 			}
+			.frame(maxWidth: .infinity, maxHeight: .infinity)
+			CustomTabBar(selectedTab: $selectedTab)
+
+		}
 	}
 }
 

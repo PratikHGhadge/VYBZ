@@ -15,26 +15,26 @@ enum MockData {
 
 		User(
 			id: "user_001",
-			userName: "pratikghadge",
+			userName: "Pratik Ghadge",
 			displayName: "Pratik Ghadge",
 			email: "pratik@gmail.com",
 			avatarURL: URL(string: "profile_cover"),
 			coverImageURL: URL(string: "profile_cover"),
 			isVerified: true,
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date(),
 			tags: ["Coder", "Photographer", "Creator"]
 		),
 
 		User(
 			id: "user_002",
-			userName: "pravinghadge",
+			userName: "Pravin Ghadge",
 			displayName: "Pravin Ghadge",
 			email: "pravin@gmail.com",
 			avatarURL: URL(string: "profile_cover"),
 			coverImageURL: URL(string: "profile_cover"),
 			isVerified: true,
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date(),
 			tags: ["Creator", "Traveler"]
 		),
@@ -47,7 +47,7 @@ enum MockData {
 			avatarURL: URL(string: "profile_cover"),
 			coverImageURL: nil,
 			isVerified: false,
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date(),
 			tags: ["Traveler", "Photography"]
 		)
@@ -92,7 +92,7 @@ enum MockData {
 			mediaURL: "post1",
 			mediaType: .photo,
 			location: "Baramati, MH",
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date(),
 			likesCount: 341,
 			commentsCount: 89
@@ -105,7 +105,7 @@ enum MockData {
 			mediaURL: "post2",
 			mediaType: .photo,
 			location: "Pune, MH",
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date(),
 			likesCount: 218,
 			commentsCount: 42
@@ -118,7 +118,7 @@ enum MockData {
 			mediaURL: "post3",
 			mediaType: .video,
 			location: "Pune, MH",
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date(),
 			likesCount: 506,
 			commentsCount: 120
@@ -131,7 +131,7 @@ enum MockData {
 			mediaURL: "post4",
 			mediaType: .photo,
 			location: "Mumbai, MH",
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date(),
 			likesCount: 187,
 			commentsCount: 31
@@ -144,7 +144,7 @@ enum MockData {
 			mediaURL: "post5",
 			mediaType: .photo,
 			location: "Pune, MH",
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date(),
 			likesCount: 264,
 			commentsCount: 54
@@ -153,11 +153,11 @@ enum MockData {
 		Post(
 			id: "post_006",
 			authorID: "user_003",
-			caption: "Adventure continues 🎥",
-			mediaURL: "post6",
+			caption: "Adventure continues",
+			mediaURL: "post5",
 			mediaType: .video,
 			location: "Goa, India",
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date(),
 			likesCount: 412,
 			commentsCount: 76
@@ -173,28 +173,28 @@ enum MockData {
 			id: "like_001",
 			postID: "post_001",
 			userID: "user_001",
-			createdAt: Date()
+			createdAt: Date.randomPastDate()
 		),
 
 		PostLike(
 			id: "like_002",
 			postID: "post_002",
 			userID: "user_001",
-			createdAt: Date()
+			createdAt: Date.randomPastDate()
 		),
 
 		PostLike(
 			id: "like_003",
 			postID: "post_003",
 			userID: "user_002",
-			createdAt: Date()
+			createdAt: Date.randomPastDate()
 		),
 
 		PostLike(
 			id: "like_004",
 			postID: "post_004",
 			userID: "user_002",
-			createdAt: Date()
+			createdAt: Date.randomPastDate()
 		)
 	]
 
@@ -208,7 +208,7 @@ enum MockData {
 			postID: "post_001",
 			userID: "user_002",
 			text: "This looks amazing!",
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date()
 		),
 
@@ -217,7 +217,7 @@ enum MockData {
 			postID: "post_001",
 			userID: "user_003",
 			text: "Great work 🔥",
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date()
 		),
 
@@ -226,7 +226,7 @@ enum MockData {
 			postID: "post_002",
 			userID: "user_001",
 			text: "Nice one!",
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date()
 		),
 
@@ -235,7 +235,7 @@ enum MockData {
 			postID: "post_003",
 			userID: "user_001",
 			text: "Where is this place?",
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date()
 		)
 	]
@@ -250,7 +250,7 @@ enum MockData {
 			userID: "user_001",
 			mediaURL: "post1",
 			mediaType: .image,
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			expiresAt: Date().addingTimeInterval(60 * 60 * 20)
 		),
 
@@ -259,7 +259,7 @@ enum MockData {
 			userID: "user_002",
 			mediaURL: "post2",
 			mediaType: .image,
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			expiresAt: Date().addingTimeInterval(60 * 60 * 18)
 		),
 
@@ -268,7 +268,7 @@ enum MockData {
 			userID: "user_003",
 			mediaURL: "post3",
 			mediaType: .video,
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			expiresAt: Date().addingTimeInterval(60 * 60 * 12)
 		)
 	]
@@ -312,7 +312,7 @@ enum MockData {
 				"user_002"
 			],
 			lastMessageID: "message_002",
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date(),
 			unreadCount: 2
 		),
@@ -324,7 +324,7 @@ enum MockData {
 				"user_003"
 			],
 			lastMessageID: "message_004",
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			updatedAt: Date(),
 			unreadCount: 0
 		)
@@ -342,7 +342,7 @@ enum MockData {
 			text: "Hey Pratik!",
 			mediaURL: nil,
 			type: .text,
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			isRead: true
 		),
 
@@ -353,7 +353,7 @@ enum MockData {
 			text: "Hey! How are you?",
 			mediaURL: nil,
 			type: .text,
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			isRead: false
 		),
 
@@ -364,7 +364,7 @@ enum MockData {
 			text: "Ready for the trip?",
 			mediaURL: nil,
 			type: .text,
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			isRead: true
 		),
 
@@ -375,7 +375,7 @@ enum MockData {
 			text: "Absolutely! 🚀",
 			mediaURL: nil,
 			type: .text,
-			createdAt: Date(),
+			createdAt: Date.randomPastDate(),
 			isRead: true
 		)
 	]

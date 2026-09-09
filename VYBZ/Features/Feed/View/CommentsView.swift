@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CommentsView: View {
 
-	let post: SocialPost
+	let post: Post
+	let user: User
 
 	var body: some View {
 		NavigationStack {
@@ -26,7 +27,7 @@ struct CommentsView: View {
 
 				Spacer()
 			}
-			.navigationTitle(post.userName)
+			.navigationTitle(user.userName)
 			.navigationBarTitleDisplayMode(.inline)
 		}
 	}
