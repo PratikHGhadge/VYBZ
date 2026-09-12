@@ -12,6 +12,9 @@ protocol PostService {
 	// Fetch feed posts
 	func fetchPosts() async throws -> [Post]
 
+	// fetch posts for specific user
+	func fetchPosts(userID: String) async throws -> [Post]
+
 	// Fetch individual post
 	func fetchPost(id: String) async throws -> Post?
 

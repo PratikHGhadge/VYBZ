@@ -10,14 +10,17 @@ import SwiftUI
 // MARK: - ProfileTabView
 
 struct ProfileTabView: View {
-	let profile: DatabaseUserProfile = DatabaseUserProfile.mock
-
+	@State private var profileViewModel: ProfileViewModel
 	@State private var selectedTab: ProfileTab = .library
 	@EnvironmentObject var router: Router
 
 	// hero height
 	private let coverHeight: CGFloat = 450
 	private let collapsedNavHeight: CGFloat = 90
+
+	init(profileViewModel: ProfileViewModel) {
+		_profileViewModel = State(initialValue: profileViewModel)
+	}
 
 	var body: some View {
 		GeometryReader { geo in
@@ -53,6 +56,9 @@ struct ProfileTabView: View {
 			}
 		}
 		.ignoresSafeArea(edges: .top)
+		.task {
+			await profileViewModel.loadProfile(userID: "user_001")
+		}
 	}
 
 	// MARK: - Hero Cover
@@ -75,17 +81,17 @@ struct ProfileTabView: View {
 
 			// Name + tags
 			VStack(alignment: .leading, spacing: 8) {
-				Text(profile.userName ?? "")
+				Text(profileViewModel.user?.userName ?? "")
 					.font(.system(size: 30, weight: .bold, design: .default))
 					.foregroundColor(.white)
 
 				HStack(spacing: 6) {
-					ForEach(profile.tags ?? [""], id: \.self) {
+					ForEach(profileViewModel.user?.tags ?? [""], id: \.self) {
 						TagChip(text: $0)
 					}
 					Spacer()
 					Text(
-						profile.joinedDate?
+						profileViewModel.user?.createdAt
 							.formatted(.dateTime) ?? Date()
 							.formatted(.dateTime)
 					)
@@ -106,8 +112,8 @@ struct ProfileTabView: View {
 
 	@ViewBuilder
 	private var coverImage: some View {
-		if UIImage(named: profile.coverImageName ?? "profile_cover") != nil {
-			Image(profile.coverImageName ?? "profile_cover")
+		if UIImage(named: profileViewModel.user?.avatarURL?.absoluteString ?? "profile_cover") != nil {
+			Image(profileViewModel.user?.avatarURL?.absoluteString ?? "profile_cover")
 				.resizable()
 				.scaledToFill()
 		} else {
@@ -131,8 +137,14 @@ struct ProfileTabView: View {
 
 			// Follower / Following row
 			HStack(spacing: 12) {
-				StatCardView(stat: profile.followers, label: "Followers")
-				StatCardView(stat: profile.following, label: "Following")
+				StatCardView(
+					stat: profileViewModel.userStats?.followersCount ?? 0,
+					label: "Followers"
+				)
+				StatCardView(
+					stat: profileViewModel.userStats?.followingCount ?? 0,
+					label: "Following"
+				)
 			}
 			.padding(.horizontal, 16)
 
@@ -166,11 +178,12 @@ struct ProfileTabView: View {
 		}
 	}
 
-	private var filteredPosts: [ProfilePost] {
+	private var filteredPosts: [Post] {
 		switch selectedTab {
-			case .library: return profile.posts ?? []
-			case .videos:  return profile.posts?.filter(\.isVideo) ?? []
-			case .saved:   return profile.posts ?? []
+			case .library: return profileViewModel.posts
+			case .videos:  return profileViewModel.posts.filter { $0.mediaType == .video
+			}
+			case .saved:   return profileViewModel.posts
 		}
 	}
 
@@ -229,38 +242,6 @@ struct StackedAvatarsView: View {
 		return LinearGradient(colors: colors[idx], startPoint: .topLeading, endPoint: .bottomTrailing)
 	}
 }
-
-// MARK: - Stat Card
-
-struct StatCardView: View {
-	let stat: ProfileStat
-	let label: String
-
-	var body: some View {
-		HStack {
-			VStack(alignment: .leading, spacing: 6) {
-				StackedAvatarsView(imageNames: stat.avatarImageNames)
-				Text("\(stat.count) \(label)")
-					.font(.system(size: 14, weight: .medium))
-					.foregroundColor(.white)
-			}
-			Spacer()
-			Image(systemName: "arrow.up.right")
-				.font(.system(size: 13, weight: .semibold))
-				.foregroundColor(.white.opacity(0.7))
-				.padding(6)
-				.background(Color.white.opacity(0.12))
-				.clipShape(Circle())
-		}
-		.padding(.horizontal, 14)
-		.padding(.vertical, 14)
-		.background(
-			RoundedRectangle(cornerRadius: 18, style: .continuous)
-				.fill(Color.white.opacity(0.13))
-		)
-	}
-}
-
 // MARK: - Tag Chip
 
 struct TagChip: View {
@@ -348,6 +329,9 @@ extension Color {
 // MARK: - Preview
 
 #Preview {
-	ProfileTabView()
+	ProfileTabView(profileViewModel: ProfileViewModel(
+		postService: MockPostService(),
+		userService: MockUserService()
+	))
 }
 

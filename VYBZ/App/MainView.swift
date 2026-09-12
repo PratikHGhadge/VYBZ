@@ -13,14 +13,22 @@ struct MainView: View {
 
 	@ObservedObject var authViewModel: AuthViewModel
 
-	@State private var selectedTab: MainTab = .chat
+	@State private var selectedTab: MainTab = .home
 	@State private var feedViewModel: FeedViewModel
+	@State private var profileViewModel: ProfileViewModel
 
 	init(authViewModel: AuthViewModel) {
 		self.authViewModel = authViewModel
 
 		_feedViewModel = State(
 			initialValue: FeedViewModel(
+				postService: MockPostService(),
+				userService: MockUserService()
+			)
+		)
+
+		_profileViewModel = State(
+			initialValue: ProfileViewModel(
 				postService: MockPostService(),
 				userService: MockUserService()
 			)
@@ -41,7 +49,7 @@ struct MainView: View {
 					case .chat:
 						ChatTabView()
 					case .profile:
-						ProfileTabView()
+						ProfileTabView(profileViewModel: profileViewModel)
 				}
 			}
 			.frame(maxWidth: .infinity, maxHeight: .infinity)

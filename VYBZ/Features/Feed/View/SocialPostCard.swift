@@ -171,8 +171,6 @@ private extension SocialPostCard {
 	}
 
 	func toggleLike() {
-//		true.toggle()
-
 		if true {
 			likes += 1
 		} else {
@@ -211,12 +209,9 @@ private extension SocialPostCard {
 
 				HStack(spacing: 5) {
 					Text(user.userName)
-						.font(
-							.system(
-								size: 15,
-								weight: .bold
-							)
-						)
+						.font(.system(size: 15, weight: .bold))
+						.foregroundStyle(.white)
+						.shadow(color: .black, radius: 1, x: 0, y: 0)
 
 					if user.isVerified {
 						Image(
@@ -227,6 +222,7 @@ private extension SocialPostCard {
 							.system(size: 12)
 						)
 						.foregroundStyle(.white)
+						.shadow(color: .black, radius: 1, x: 0, y: 0)
 					}
 				}
 
@@ -246,6 +242,7 @@ private extension SocialPostCard {
 				.foregroundStyle(
 					.white.opacity(0.62)
 				)
+				.shadow(color: .clear, radius: 1, x: 0, y: 0)
 			}
 
 			Spacer()
@@ -261,6 +258,7 @@ private extension SocialPostCard {
 						)
 					)
 					.foregroundStyle(.white)
+					.shadow(color: .black, radius: 1, x: 0, y: 0)
 					.padding(.horizontal, 19)
 					.frame(height: 38)
 					.background(
@@ -275,6 +273,7 @@ private extension SocialPostCard {
 							)
 					}
 			}
+			.shadow(color: .clear, radius: 1, x: 0, y: 0)
 		}
 		.padding(
 			EdgeInsets(

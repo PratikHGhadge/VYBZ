@@ -15,6 +15,15 @@ final class  MockPostService: PostService {
 		return MockData.posts
 	}
 
+	// fetch posts for specific user
+	func fetchPosts(userID: String) async throws -> [Post] {
+		try await Task.sleep(for: .milliseconds(300))
+
+		return MockData.posts.filter {
+			$0.authorID == userID
+		}
+	}
+
 	// Fetch individual post
 	func fetchPost(id: String) async throws -> Post? {
 		try await Task.sleep(for: .milliseconds(300))
