@@ -36,7 +36,7 @@ class AuthViewModel: ObservableObject {
 			}
 		}
 	}
-	@Published var databaseUserProfile: DatabaseUserProfile? = nil
+//	@Published var databaseUserProfile: DatabaseUserProfile? = nil
 
 
 	init() {

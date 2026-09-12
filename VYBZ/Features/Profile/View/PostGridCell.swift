@@ -10,26 +10,27 @@ import SwiftUI
 // MARK: - Post Grid Cell
 
 struct PostGridCell: View {
-	let post: ProfilePost
+	let post: Post
 	var size: CGFloat
 
 	var body: some View {
 		ZStack(alignment: .bottomTrailing) {
+			let name = post.mediaURL ?? ""
 			Group {
-				if UIImage(named: post.imageName) != nil {
-					Image(post.imageName)
+				if UIImage(named: name) != nil {
+					Image(name)
 						.resizable()
 						.scaledToFill()
 				} else {
 					// Placeholder gradient when asset is missing
 					RoundedRectangle(cornerRadius: 12, style: .continuous)
-						.fill(placeholderGradient(for: post.imageName))
+						.fill(placeholderGradient(for: name))
 				}
 			}
 			.frame(width: size, height: size)
 			.clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
 
-			if post.isVideo {
+			if post.mediaType == .video {
 				Image(systemName: "play.fill")
 					.font(.system(size: 10, weight: .bold))
 					.foregroundColor(.white)
