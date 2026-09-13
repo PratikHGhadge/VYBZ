@@ -9,7 +9,8 @@ import SwiftUI
 
 struct StoryView: View {
 
-	let story: ChatStory
+	let story: Story
+	let user: User
 
 	var body: some View {
 		VStack(spacing: 8) {
@@ -31,7 +32,7 @@ struct StoryView: View {
 					)
 					.frame(width: 72, height: 72)
 
-				Image(story.avatar)
+				Image(user.avatarURL?.absoluteString ?? "")
 					.resizable()
 					.scaledToFill()
 					.frame(
@@ -50,7 +51,8 @@ struct StoryView: View {
 
 			}
 			.overlay(alignment: .bottomTrailing) {
-				if story.hasPlus {
+				// TODO: Add support for user to add its own story
+				if false {
 					ZStack {
 						Circle()
 							.fill(.white)
@@ -71,7 +73,7 @@ struct StoryView: View {
 				}
 			}
 
-			Text(story.name)
+			Text(user.displayName)
 				.font(
 					.system(
 						size: 13,

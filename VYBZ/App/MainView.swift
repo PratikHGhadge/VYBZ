@@ -16,6 +16,7 @@ struct MainView: View {
 	@State private var selectedTab: MainTab = .home
 	@State private var feedViewModel: FeedViewModel
 	@State private var profileViewModel: ProfileViewModel
+	@State private var storyViewModel: StoryViewModel
 
 	init(authViewModel: AuthViewModel) {
 		self.authViewModel = authViewModel
@@ -33,6 +34,13 @@ struct MainView: View {
 				userService: MockUserService()
 			)
 		)
+
+		_storyViewModel = State(
+			initialValue: StoryViewModel(
+				storyService: MockStoryService(),
+				userService: MockUserService()
+			)
+		)
 	}
 
 	var body: some View {
@@ -47,7 +55,7 @@ struct MainView: View {
 					case .create:
 						AppBackground()
 					case .chat:
-						ChatTabView()
+						ChatTabView(storyViewModel: storyViewModel)
 					case .profile:
 						ProfileTabView(profileViewModel: profileViewModel)
 				}
