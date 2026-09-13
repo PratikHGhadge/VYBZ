@@ -13,7 +13,12 @@ struct ChatTabView: View {
 
 	@State private var searchText = ""
 	@State private var showNewMessage = false
+	@State private var storyViewModel: StoryViewModel
 	@EnvironmentObject var router: Router
+
+	init(storyViewModel: StoryViewModel) {
+		_storyViewModel = State(initialValue: storyViewModel)
+	}
 
 	var body: some View {
 		NavigationStack {
@@ -36,6 +41,9 @@ struct ChatTabView: View {
 			}
 		}
 		.preferredColorScheme(.dark)
+		.task {
+			await storyViewModel.loadStories()
+		}
 	}
 }
 
@@ -183,8 +191,10 @@ private extension ChatTabView {
 			showsIndicators: false
 		) {
 			HStack(spacing: 18) {
-				ForEach(ChatStory.mockStories) { story in
-					StoryView(story: story)
+				ForEach(storyViewModel.stories) { story in
+					if let user = storyViewModel.user(for: story) {
+						StoryView(story: story, user: user)
+					}
 				}
 			}
 			.padding(.horizontal, 24)
@@ -223,5 +233,8 @@ private extension ChatTabView {
 // MARK: - Preview
 
 #Preview {
-	ChatTabView()
+	ChatTabView(storyViewModel: StoryViewModel(
+		storyService: MockStoryService(),
+		userService: MockUserService())
+	)
 }
